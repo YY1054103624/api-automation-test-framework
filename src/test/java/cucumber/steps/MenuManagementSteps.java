@@ -2,14 +2,20 @@ package cucumber.steps;
 
 import cucumber.file.RestaurantMenu;
 import cucumber.file.RestaurantMenuItem;
+import io.cucumber.java.da.Men;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.minidev.json.JSONUtil;
 
 import static org.junit.Assert.assertTrue;
 
 public class MenuManagementSteps {
     private RestaurantMenuItem newMenuItem;
+
+    public MenuManagementSteps() {
+        System.out.println("Constructor called");
+    }
 
     @Given("I have a menu item with name {string} and price {int}")
     public void i_have_a_menu_item_with_name_and_price(String itemName, Integer price) {
