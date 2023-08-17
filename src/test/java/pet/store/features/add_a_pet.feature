@@ -1,24 +1,23 @@
-@Pet
+@AddPet
 Feature: Add a new pet
-  @AddPets
   Scenario: Add a new pet
     Given User has login into system
-    When User send "post" request to "/pet" with "add_a_pet.json" as parameter
-    |id|
-    |AUTO|
+    When User sends a request
+    |endpoint|urlParam|method|contendType     |requestBody   |fieldsToAutoGenerate|fieldsGetFromResponse|urlParamGetFromResponse|
+    |/pet    |none    |post  |application/json|add_a_pet.json|id                  |none                 |none                   |
     Then Verify status code is 200
-    Then Save data from response
-    |id|
-    |petId|
+    Then Save data from response "id"
 
-  @GetPet
-  Scenario: Update a pet by id
+  Scenario: Get a pet by id
     Given User has login into system
-    When User send "post" request to "/pet" with "petId" from last interface and "update_a_pet.json"
+    When User sends a request
+      |endpoint|urlParam|method|contendType     |requestBody   |fieldsToAutoGenerate|fieldsGetFromResponse|urlParamGetFromResponse|
+      |/pet    |/?      |get   |none            |none          |none                |none                 |id                     |
     Then Verify status code is 200
 
-  @DeletePet
   Scenario: Delete a pet by id
     Given User has login into system
-    When User send "delete" request to "/pet" with "petId" from last interface
+    When User sends a request
+      |endpoint|urlParam|method|contendType     |requestBody   |fieldsToAutoGenerate|fieldsGetFromResponse|urlParamGetFromResponse|
+      |/pet    |/?      |delete|none            |none          |none                |none                 |id                     |
     Then Verify status code is 200

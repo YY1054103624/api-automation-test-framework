@@ -1,0 +1,26 @@
+{
+  "count": 20,
+  "teams": [
+    {
+      "id": 322,
+      "name": "Hull City FC",
+      "shortName": "Hull",
+      "squadMarketValue": null,
+      "crestUrl": "http://upload.wikimedia.org/wikipedia/de/a/a9/Hull_City_AFC.svg"
+    },
+    {
+      "id": 338,
+      "name": "Leicester City FC",
+      "shortName": "Foxes",
+      "squadMarketValue": null,
+      "crestUrl": "http://upload.wikimedia.org/wikipedia/en/6/63/Leicester02.png"
+    },
+    {
+      "id": 340,
+      "name": "Southampton FC",
+      "shortName": "Southampton",
+      "squadMarketValue": null,
+      "crestUrl": "http://upload.wikimedia.org/wikipedia/de/c/c9/FC_Southampton.svg"
+    }
+  ]
+}

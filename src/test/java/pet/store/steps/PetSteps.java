@@ -20,10 +20,12 @@ import java.util.Optional;
 import static io.restassured.RestAssured.given;
 import static pet.store.utils.FileAndPath.getJsonFileObject;
 import static pet.store.utils.FileAndPath.getJsonFilePath;
+import static pet.store.utils.JsonProcessor.getJSONObject;
 import static pet.store.utils.JsonProcessor.getRequestParam;
 import static pet.store.utils.ResourcesConnections.env;
 import static pet.store.utils.ResourcesConnections.temp;
 import static pet.store.utils.SendRequest.sendRequest;
+import static pet.store.utils.SendRequest.sendRequest2;
 
 public class PetSteps {
     private ValidatableResponse response;
@@ -53,22 +55,30 @@ public class PetSteps {
     }
 
     @When("User send {string} request to {string} with {string} from last interface and {string}")
-    public void user_send_request_to_with_from_last_interface_and(String string, String string2, String string3, String string4) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void user_send_request_to_with_from_last_interface_and(String httpMethod, String endpoint, String key, String fileName) {
+        endpoint = endpoint + "/" + temp.get(key);
+        response = given().contentType("application/x-www-form-urlencoded").body(getJSONObject(fileName).toString()).when().post(endpoint).then().log().body();
     }
+
+    @When("User sends a request")
+    public void user_sends_a_request(io.cucumber.datatable.DataTable dataTable) {
+        Map<String, String> requestSettings = dataTable.asMaps().get(0);
+        response = sendRequest2(requestSettings);
+    }
+
     @Then("Verify status code is {int}")
     public void verify_status_code_is(Integer expectedStatusCode) {
         response.assertThat().statusCode(expectedStatusCode);
     }
 
-    @Then("Save data from response")
-    public void save_data_from_response(io.cucumber.datatable.DataTable dataTable) {
-        Map<String, String> map = dataTable.asMaps().get(0);
-        for (Map.Entry<String, String> entry: map.entrySet()) {
-            temp.put(entry.getValue(), response.extract().jsonPath().get(entry.getKey()));
+    @Then("Save data from response {string}")
+    public void save_data_from_response(String fields) {
+        // ["petId:id",...]
+        String[] fieldNames = fields.split(",");
+        for (String fieldName: fieldNames) {
+            temp.put(fieldName, (response.extract().jsonPath().get(fieldName)).toString());
+            System.out.println(temp.get(fieldName));
         }
-        System.out.println(temp.get("petId"));
     }
 
 }
