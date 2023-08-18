@@ -1,5 +1,5 @@
 {
-  "count": 20,
+  "count": "{{count}}",
   "teams": [
     {
       "id": 322,
