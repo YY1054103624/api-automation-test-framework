@@ -1,25 +1,30 @@
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import net.datafaker.Faker;
+import net.datafaker.providers.base.BaseProviders;
+import net.datafaker.providers.base.Medical;
+import net.datafaker.providers.base.Number;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import static pet.store.utils.JsonProcessor.getJSONObject;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        // invoke method by method's name (reflect)
+        Faker faker = new Faker();
+        faker.number().randomNumber();
+        Number num = faker.number();
+        Class numClass = num.getClass();
+        Method randomNumber = numClass.getDeclaredMethod("randomNumber");
+        System.out.println(randomNumber.invoke(num));
+
+//        User u = new User();
+//        Class uClass = u.getClass();
+//        Method method = uClass.getDeclaredMethod("say");
+//        method.invoke(u);
+
 //        try {
-//            String contents = Files.readString(Path.of("src/test/resources/Gpath.json"));
-//            System.out.println(contents);
-//            System.out.println(contents.replace("{{count}}", "20"));
+//            String contents = Files.readString(Path.of("src/test/resources/add_a_pet.json"));
+//            given().contentType(ContentType.JSON).body(contents.replace("{{id}}", "1")).when().post("https://petstore.swagger.io/v2" + "/pet").then().log().body().assertThat().statusCode(201);
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
