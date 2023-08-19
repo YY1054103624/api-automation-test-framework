@@ -4,16 +4,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class FileAndPath {
-    public static final String JSON_PARAM_DIRECTORY_PATH = "src/test/resources";
+    public static final String RESOURCES_DIRECTORY_PATH = "src/test/resources";
     public static File getJsonFileObject(String requestParamFileLocation) {
         return new File(getJsonFilePath(requestParamFileLocation));
     }
 
     public static String getJsonFilePath(String fileName) {
-        return JSON_PARAM_DIRECTORY_PATH + File.separator + fileName;
+        return RESOURCES_DIRECTORY_PATH + File.separator + fileName;
     }
 
     public static FileReader getFileReader(String fileName) throws FileNotFoundException {
@@ -42,5 +44,15 @@ public class FileAndPath {
             }
         }
         return properties;
+    }
+
+    public static String getRequestBodyFromFile(String dirPath, String fileName) {
+        Path filePath = Path.of(dirPath + File.separator + fileName);
+        try {
+            return Files.readString(filePath);
+        } catch (IOException e) {
+            System.out.println("file doesn't exist: " + filePath.toString());
+            throw new RuntimeException(e);
+        }
     }
 }

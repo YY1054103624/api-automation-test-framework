@@ -1,10 +1,10 @@
 {
-  "id": {{currentTimeMillis}},
+  "id": {{$number.positive}},
   "category": {
     "id": 0,
-    "name": "cat"
+    "name": "{{$cat.breed}}"
   },
-  "name": "Dabao",
+  "name": "{{name}}",
   "photoUrls": [
     "string"
   ],
@@ -14,5 +14,5 @@
       "name": "string"
     }
   ],
-  "status": "available"
+  "status": "{{petStatus}}"
 }

@@ -2,20 +2,51 @@ import net.datafaker.Faker;
 import net.datafaker.providers.base.BaseProviders;
 import net.datafaker.providers.base.Medical;
 import net.datafaker.providers.base.Number;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        // invoke method by method's name (reflect)
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
         Faker faker = new Faker();
-        faker.number().randomNumber();
-        Number num = faker.number();
-        Class numClass = num.getClass();
-        Method randomNumber = numClass.getDeclaredMethod("randomNumber");
-        System.out.println(randomNumber.invoke(num));
+        System.out.println(faker.cat().name());
+//        System.out.println(StringUtils.strip("{{$name}}", "{{$}}"));
+        /**
+         * Regex
+         */
+//        String contents = Files.readString(Path.of("src/test/resources/add_a_pet.json"));
+//        Pattern pattern = Pattern.compile("(\\{\\{)(\\w+?\\.?\\w+?)(\\}\\})", Pattern.CASE_INSENSITIVE);
+//        Matcher matcher = pattern.matcher(contents);
+//        System.out.println(matcher.matches());
+//        System.out.println(matcher.groupCount());
+//        System.out.println(matcher.group(1));
+//        while (matcher.find()) {
+//            System.out.println(matcher.group());
+//        }
+        /**
+         * ** invoke method to generate faker data by reflect
+         */
+//        Faker faker = new Faker();
+//        Class fakerClass = faker.getClass();
+//        Class baseProviderClass = BaseProviders.class;
+//        Method numMethod = baseProviderClass.getDeclaredMethod("number");
+//        Object num = numMethod.invoke(faker);
+//        Class numClass = num.getClass();
+//        Method randomNumber = numClass.getDeclaredMethod("randomNumber");
+//        System.out.println(randomNumber.invoke(num));
+
+//        Class numClass = Class.forName("net.datafaker.providers.base.Number");
+//        Constructor numCon = numClass.getDeclaredConstructor(BaseProviders.class);
+//        Number numObj = (Number) numCon.newInstance(faker);
+//        System.out.println(numObj.positive());
 
 //        User u = new User();
 //        Class uClass = u.getClass();
