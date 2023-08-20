@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-import static pet.store.utils.FileAndPath.RESOURCES_DIRECTORY_PATH;
-import static pet.store.utils.FileAndPath.getProperty;
+import static pet.store.utils.FileAndPath.*;
 
 public class ResourcesConnections {
     public static final Properties env = getProperty(RESOURCES_DIRECTORY_PATH, "Env.properties");
     public static final Map<String, String> temp = new HashMap<>();
+    public static final FileOutputStream fos = getFileOutPutStream(RESOURCES_DIRECTORY_PATH, "Env.properties");
+
     public static void main(String[] args) throws IOException {
         env.setProperty("name", "Oscar");
         env.setProperty("category", "Plush");

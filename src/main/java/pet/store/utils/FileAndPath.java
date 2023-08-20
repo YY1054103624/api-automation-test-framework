@@ -1,9 +1,6 @@
 package pet.store.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
@@ -54,5 +51,17 @@ public class FileAndPath {
             System.out.println("file doesn't exist: " + filePath.toString());
             throw new RuntimeException(e);
         }
+    }
+
+    public static FileOutputStream getFileOutPutStream(String dirPath, String fileName) {
+        File file = new File(dirPath + File.separator + fileName);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return fos;
     }
 }

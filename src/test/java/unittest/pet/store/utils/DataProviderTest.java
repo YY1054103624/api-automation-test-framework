@@ -17,6 +17,6 @@ public class DataProviderTest {
     @Test
     public void getReplaceDataFromEnvTest() {
         String originData = getRequestBodyFromFile(RESOURCES_DIRECTORY_PATH, "add_a_pet.json");
-        System.out.println(getReplacedFakeData(getReplaceDataFromEnv(originData)));
+        System.out.println(getReplacedFakeData(getReplaceDataFromEnv("/pet/{{$cat.name}}")));
     }
 }

@@ -16,8 +16,10 @@ import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
-        Faker faker = new Faker();
-        System.out.println(faker.cat().name());
+        boolean exist = false;
+        if ((exist = false)) {
+            System.out.println("hello");
+        }
 //        System.out.println(StringUtils.strip("{{$name}}", "{{$}}"));
         /**
          * Regex

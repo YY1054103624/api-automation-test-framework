@@ -1,4 +1,4 @@
 {
-  "name": "Xiaobao",
+  "name": "{{$cat.name}}",
   "status": "available"
 }
