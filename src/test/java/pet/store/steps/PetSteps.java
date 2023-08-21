@@ -59,6 +59,7 @@ public class PetSteps {
         try {
             response.assertThat().statusCode(expectedStatusCode);
         } catch (AssertionError e) {
+            response.log().all();
             throw e;
         }
     }

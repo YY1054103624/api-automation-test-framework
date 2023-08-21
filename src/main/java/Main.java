@@ -1,3 +1,7 @@
+import io.restassured.internal.RequestSpecificationImpl;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSenderOptions;
+import io.restassured.specification.RequestSpecification;
 import net.datafaker.Faker;
 import net.datafaker.providers.base.BaseProviders;
 import net.datafaker.providers.base.Medical;
@@ -14,13 +18,26 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.restassured.RestAssured.given;
+
 public class Main {
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
-        boolean exist = false;
-        if ((exist = false)) {
-            System.out.println("hello");
+    private void test(String s, Object... params) {
+        for (Object p: params) {
+            System.out.println(p);
         }
-//        System.out.println(StringUtils.strip("{{$name}}", "{{$}}"));
+        System.out.println(s);
+    }
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
+        /**
+         * reflect with variadic parameters
+         */
+//        Main m = new Main();
+////        m.test("Hello");
+//        Class c = Main.class;
+//        Method method = c.getDeclaredMethod("test", String.class, Object[].class);
+//        method.invoke(m, "Hello", new Object[0]);
+//        response.then().log().body();
+
         /**
          * Regex
          */

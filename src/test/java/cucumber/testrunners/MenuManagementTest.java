@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
         "html:target/SystemTestReports/index.html",
         "json:target/SystemTestReports/json/report.json",
         "junit:target/SystemTestReports/junit/report.xml"},
-        tags = "@Regression",
+        tags = "@ShoppingCentre",
         dryRun = false)
 public class MenuManagementTest {
 }

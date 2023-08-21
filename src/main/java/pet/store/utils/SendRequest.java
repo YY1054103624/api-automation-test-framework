@@ -1,8 +1,16 @@
 package pet.store.utils;
 
 import io.restassured.http.ContentType;
+import io.restassured.internal.RequestSpecificationImpl;
+import io.restassured.response.Response;
+import io.restassured.response.Validatable;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.response.ValidatableResponseOptions;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.RequestSenderOptions;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import static io.restassured.RestAssured.baseURI;
@@ -42,38 +50,47 @@ public class SendRequest {
 
     public static ValidatableResponse sendRequest2(Map<String, String> requestSettings) {
         ValidatableResponse response = null;
+        RequestSpecification requestSpecification = given();
+
         String endpoint = requestSettings.get("endpoint");
         String method = requestSettings.get("method");
         String contentType = requestSettings.get("contendType");
         String requestBody = requestSettings.get("requestBody");
 
-        // Process endpoint
-        endpoint = getReplacedFakeData(getReplaceDataFromEnv(endpoint));
-        System.out.println("Endpoint is: " + endpoint);
+        // if endpoint is needed
+        if (!"none".equalsIgnoreCase(endpoint)) {
+            // Process endpoint
+            endpoint = getReplacedFakeData(getReplaceDataFromEnv(endpoint));
+        }
 
-        // Process requestBody
-        if ("none".equalsIgnoreCase(requestBody)) {
-            requestBody = "";
-        } else {
+        // if contentType is needed
+        if (!"none".equalsIgnoreCase(contentType)) {
+            requestSpecification = requestSpecification.contentType(contentType);
+        }
+
+        // if requestBody is needed
+        if (!"none".equalsIgnoreCase(requestBody)) {
+            // Process requestBody
             requestBody = getReplacedFakeData(getReplaceDataFromEnv(getRequestBodyFromFile(RESOURCES_DIRECTORY_PATH, requestBody)));
+            requestSpecification = requestSpecification.body(requestBody);
         }
 
-        switch (method.toUpperCase()) {
-            case "POST":
-                response = given().contentType(contentType).body(requestBody).when().post(endpoint).then().log().body();
-                break;
-            case "GET":
-                response = given().when().get(endpoint).then().log().body();
-                break;
-            case "PUT":
-                response = given().contentType(contentType).body(requestBody).when().put(endpoint).then().log().body();
-                break;
-            case "DELETE":
-                response = given().when().delete(endpoint).then().log().body();
-                break;
-            default:
-                System.out.println(("method: " + method + " isn't supported."));
+        // if Authorization is needed
+        if (!endpoint.equalsIgnoreCase("/login") && env.containsKey("token")) {
+            requestSpecification = requestSpecification.header("Authorization", "Bearer " + env.getProperty("token"));
         }
+
+        try {
+            // invoke specific http method by reflection
+            Class c = RequestSpecificationImpl.class;
+            Method httpMethod = c.getDeclaredMethod(method.toLowerCase(), String.class, Object[].class);
+            // new Object[0]: invoke method with variadic parameters as empty
+            Response r = (Response) httpMethod.invoke(requestSpecification, endpoint, new Object[0]);
+            response = r.then().log().body();
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
         return response;
     }
 
