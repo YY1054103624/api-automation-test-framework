@@ -1,5 +1,5 @@
 .idea
-src/main/resources
 target
 targets
 browserDrivers
+*.iml
