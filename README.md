@@ -96,4 +96,40 @@ Feature: Add pets
 ```
 Modify **endport**, **method**, **contentType**, **requestBodyFileName** based on the api you are going to send.
 
-If 
+If you want save some data from the response of a api. Set the value of the first row as json path, refer to [Groovy Gpath](https://www.james-willett.com/rest-assured-gpath-json/}. Set the value of the second row as the variable name you want store.
+
+Don't forget to add tags, like @AddPet.
+
+#### Modify TestRunner
+```java
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = {"src/test/resources/features"},
+        glue = {"org.example.hooks", "org.example.steps"},
+        plugin = {"pretty",
+                "timeline:target/generated-timeline-report",
+                "html:target/generated-html-report/index.html"},
+        tags = "@Regression"
+        )
+public class TestRunner {
+}
+```
+Replace @Regression with tags you added on the scenario.
+
+#### Execute
+Using a maven comand to run your test cases:
+```tcsh
+mvn -Dtest=TestRunner test
+```
+
+TO DO
+-------------
+There're several parts will be added into the framework later:
+- Extent Reports
+- Authorization
+- Soap api
+- Rpc api
