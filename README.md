@@ -32,7 +32,39 @@ Then you can find the timeline reprot under target/generated-timeline-report and
 
 Run your own test cases
 -----------------
-Simulate the features file I've already created.
+#### Modify environment.properties
+Change baseUrl in environment.properties which is under src/test/resources.
+
+Add key-value that you want to use late in request body or endpoint.
+
+#### Add request bodies
+Put request body in a file and paste the file under src/main/resources/request_bodies, like this:
+```json
+{
+  "id": {{$number.positive}},
+  "category": {
+    "id": 0,
+    "name": "{{$cat.breed}}"
+  },
+  "name": "{{$cat.name}}",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status": "available"
+}
+```
+If a variable is wrapped with {{$}}, like {{$number.positive}}, then it'll be replaced with fake data, refer to [datafaker](https://www.datafaker.net/).
+
+If a variable is wrapped with {{}}, like {{name}}, then it'll be replaced with data with the same key from environment variables. (This doesn't mean you have to put name=? into environment.properties, you can also get the value from another api.)
+
+#### Write test cases
+Write a test case by simulating the features file I've already created.
 ```gherkin
 @Regression
 Feature: Add pets
@@ -62,3 +94,6 @@ Feature: Add pets
       |/pet/{{petId}}|delete|none       |none               |
     Then Verify status code is 200
 ```
+Modify **endport**, **method**, **contentType**, **requestBodyFileName** based on the api you are going to send.
+
+If 
