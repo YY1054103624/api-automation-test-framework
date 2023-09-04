@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Test') { 
             steps {
-                sh 'mvn -Dtest=TestRunner test' 
-                junit 'target/generated-html-report/*.html'
+                sh 'mvn -Dtest=TestRunner test'
             }
         }
     }
