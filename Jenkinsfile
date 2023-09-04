@@ -6,9 +6,14 @@ pipeline {
         }
     }
     stages {
-        stage('Build') { 
+        stage('Test') { 
             steps {
                 sh 'mvn -Dtest=TestRunner test' 
+            }
+            post {
+                always {
+                    testng 'target/generated-html-report/*.html' 
+                }
             }
         }
     }
