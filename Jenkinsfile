@@ -14,11 +14,9 @@ pipeline {
         }
         stage('Email') {
             steps {
-                emailext 
-                body: '${JOB_URL}', 
-                    recipientProviders: [buildUser()], 
-                    subject: 'Hello - this is an email sent by Jenkins', 
-                    to: '18301926330@163.com'
+                mail to: '18301926330@163.com',
+                    subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+                    body: "Please go to ${BUILD_URL} and verify the build"
             }
         }
     }
