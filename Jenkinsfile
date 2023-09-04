@@ -12,5 +12,14 @@ pipeline {
                 sh 'mvn -Dtest=TestRunner test'
             }
         }
+        stage('Email') {
+            steps {
+                emailext 
+                body: '${JOB_URL}', 
+                    recipientProviders: [buildUser()], 
+                    subject: 'Hello - this is an email sent by Jenkins', 
+                    to: '18301926330@163.com'
+            }
+        }
     }
 }
