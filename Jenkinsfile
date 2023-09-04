@@ -1,15 +1,15 @@
 pipeline {
-    agent any
-    stages {
-        stage('begin') {
-            steps {
-                echo 'Hello pipeline'
-                }
+    agent {
+        docker {
+            image 'maven:3.9.4-eclipse-temurin-17-alpine' 
+            args '-v /root/.m2:/root/.m2' 
         }
     }
-    post {
-        always {
-            echo 'say goodbay'
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'mvn -Dtest=TestRunner test' 
+            }
         }
     }
 }
