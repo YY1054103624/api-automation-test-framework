@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Test') { 
             steps {
-                sh 'echo $HOME'
+                sh 'printenv'
                 sh 'mvn -Dtest=TestRunner test'
             }
         }
