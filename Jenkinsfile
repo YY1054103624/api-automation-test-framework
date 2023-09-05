@@ -12,18 +12,6 @@ pipeline {
                 sh 'mvn -Dtest=TestRunner test'
             }
         }
-        stage('Generate HTML report') {
-            cucumber buildStatus: 'UNSTABLE',
-                    reportTitle: 'My report',
-                    fileIncludePattern: '**/*.json',
-                    trendsLimit: 10,
-                    classifications: [
-                        [
-                            'key': 'Browser',
-                            'value': 'Firefox'
-                        ]
-                    ]
-        }
         stage('Email') {
             steps {
                 mail to: '18301926330@163.com',
