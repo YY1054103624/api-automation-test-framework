@@ -1,4 +1,8 @@
 pipeline {
+    triggers {
+        cron '''TZ=Asia/Shanghai
+        0 10 * * 1-5'''
+    }
     agent {
         docker {
             image 'maven:3.9.4-eclipse-temurin-17-alpine' 
