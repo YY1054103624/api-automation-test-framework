@@ -49,6 +49,5 @@ pipeline {
                     body: "Please go to ${BUILD_URL} and verify the build"
             }
         }
-        */
-    }
+    } */
 }
