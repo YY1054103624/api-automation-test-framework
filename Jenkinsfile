@@ -1,7 +1,7 @@
 pipeline {
     triggers {
         cron '''TZ=Asia/Shanghai
-        0 10 * * 1-5'''
+        H 10 * * 1-5'''
     }
     agent {
         docker {
