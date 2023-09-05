@@ -17,9 +17,9 @@ pipeline {
         stage('Test') { 
             steps {
                 sh 'mvn -Dtest=TestRunner test'
-            }
-            
+            }          
         }
+    }
     post { 
         aways { 
             echo 'I will always say Hello again!'
@@ -30,24 +30,4 @@ pipeline {
             Project URL: ${PROJECT_URL}''', recipientProviders: [buildUser()], subject: '${PROJECT_NAME}', to: '18301926330@163.com 1054103624@qq.com'
         }
     }
-        /*stage('Report'){
-            steps {
-                publishHTML (target : [allowMissing: false,
-                     alwaysLinkToLastBuild: true,
-                     keepAll: true,
-                     reportDir: 'target/generated-html-report/',
-                     reportFiles: 'index.html',
-                     reportName: 'My Reports',
-                     reportTitles: 'The Report',
-                     useWrapperFileDirectly : false])
-            }
-        }
-        stage('Email') {
-            steps {
-                mail to: '18301926330@163.com',
-                    subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
-                    body: "Please go to ${BUILD_URL} and verify the build"
-            }
-        }
-    } */
 }
