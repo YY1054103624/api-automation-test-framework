@@ -15,6 +15,9 @@ pipeline {
                 sh 'printenv'
                 sh 'mvn -Dtest=TestRunner test'
             }
+            
+        }
+        stage('Report'){
             steps {
                 publishHTML (target : [allowMissing: false,
                      alwaysLinkToLastBuild: true,
