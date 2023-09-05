@@ -25,7 +25,8 @@ pipeline {
                      reportDir: 'target/generated-html-report/',
                      reportFiles: 'index.html',
                      reportName: 'My Reports',
-                     reportTitles: 'The Report'])
+                     reportTitles: 'The Report',
+                     useWrapperFileDirectly : false])
             }
         }
         stage('Email') {
