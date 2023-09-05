@@ -15,6 +15,15 @@ pipeline {
                 sh 'printenv'
                 sh 'mvn -Dtest=TestRunner test'
             }
+            steps {
+                publishHTML (target : [allowMissing: false,
+                     alwaysLinkToLastBuild: true,
+                     keepAll: true,
+                     reportDir: 'target/generated-html-report/',
+                     reportFiles: 'index.html',
+                     reportName: 'My Reports',
+                     reportTitles: 'The Report'])
+            }
         }
         stage('Email') {
             steps {
