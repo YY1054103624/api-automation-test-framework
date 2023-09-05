@@ -16,7 +16,8 @@ import org.junit.runner.RunWith;
         glue = {"org.example.hooks", "org.example.steps"},
         plugin = {"pretty",
                 "timeline:target/generated-timeline-report",
-                "html:target/generated-html-report/index.html"},
+                "html:target/generated-html-report/index.html",
+                 "json:target/generated-json-report/cucumber.json"},
         tags = "@Regression"
         )
 public class TestRunner {
