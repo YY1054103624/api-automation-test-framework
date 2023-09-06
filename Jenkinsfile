@@ -19,9 +19,7 @@ pipeline {
                 build 'Pipeline-usage'
             }
         }
-    }
-    stages {
-        stage('Test') { 
+        stage('Test') {
             steps {
                 sh 'mvn -Dtest=TestRunner test'
             }          
