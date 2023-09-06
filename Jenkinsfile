@@ -21,13 +21,21 @@ pipeline {
         }
     }
     post { 
-        always { 
-            echo 'I will always say Hello again!'
-        }
         success {
-            emailext attachLog: true, body: '''Build Success
-            
-            Project URL: ${PROJECT_URL}''', recipientProviders: [buildUser()], subject: '${PROJECT_NAME}', to: '18301926330@163.com 1054103624@qq.com'
+        // Send emails to all related devlopers when building process is succeed.
+          emailext attachmentsPattern: 'target/generated-html-report/index.html', body: '''BUILD SUCCESS
+
+Build URL: ${BUILD_URL}
+Project Name: ${PROJECT_NAME}
+Date of build: ${CURRENT_TIME}
+''', recipientProviders: [contributor()], subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful', to: 'cc:1054103624@qq.com'}
+        failure {
+        // Send the email to the builder when building process is failed.
+            emailext attachLog: true, body: '''BUILD SUCCESS
+
+Build URL: ${BUILD_URL}
+Project Name: ${PROJECT_NAME}
+Date of build: ${CURRENT_TIME}''', recipientProviders: [buildUser()], subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Unsuccessful'
         }
     }
 }
