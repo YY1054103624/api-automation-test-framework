@@ -16,7 +16,13 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo ${currentBuild.upstreamBuilds}
+                script {
+                    println "build number: ${currentBuild.number}";
+                    println "current result: ${currentBuild.currentResult}";
+                    println "build URL: ${currentBuild.absoluteUrl}";
+                    println "upstream build: ${currentBuild.upstreamBuilds}";
+                }
+                sh 'echo $BRANCH_NAME'
                 // sh 'mvn -Dtest=TestRunner test'
             }          
         }
