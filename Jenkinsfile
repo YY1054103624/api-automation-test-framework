@@ -1,4 +1,7 @@
 pipeline {
+    parameters {
+        gitParameter(name: 'BUILD_CAUSE',type: 'string',defaultValue: "1")
+    }
     triggers {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
@@ -21,7 +24,7 @@ pipeline {
                     println "current result: ${currentBuild.currentResult}";
                     println "build URL: ${currentBuild.absoluteUrl}";
                     println "upstream build: ${currentBuild.upstreamBuilds}";
-                    println "build cause: ${currentBuild.	getBuildCauses()}";
+                    println "build cause: ${currentBuild.getBuildCauses()}";
 
                 }
                 echo '$BRANCH_NAME'
