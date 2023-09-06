@@ -1,6 +1,8 @@
 pipeline {
-    parameters {
-        getParameter(name: 'BUILD_CAUSE',type: 'string',defaultValue: "1")
+    agent any
+    parameters {			//参数化构建
+      choice choices: ['true', 'false'], description: '测试', name: 'test'
+      string name: 'NEW_BRANCH', defaultValue: '', description:'', trim: true
     }
     triggers {
         cron '''TZ=Asia/Shanghai
@@ -10,12 +12,12 @@ pipeline {
         timeout(time: 5, unit: 'MINUTES')
         timestamps()
     }
-    agent {
+    /*agent {
         docker {
-            image 'maven:3.9.4-eclipse-temurin-17-alpine' 
-            args '-v /root/.m2:/root/.m2' 
+            image 'maven:3.9.4-eclipse-temurin-17-alpine'
+            args '-v /root/.m2:/root/.m2'
         }
-    }
+    }*/
     stages {
         stage('Test') {
             steps {
@@ -24,10 +26,9 @@ pipeline {
                     println "current result: ${currentBuild.currentResult}";
                     println "build URL: ${currentBuild.absoluteUrl}";
                     println "upstream build: ${currentBuild.upstreamBuilds}";
-                    println "build cause: ${currentBuild.getBuildCauses()}";
+                    println "build cause: ${currentBuild.	getBuildCauses()}";
 
                 }
-                echo '${params.BUILD_CAUSE'
                 echo '$BRANCH_NAME'
                 // sh 'mvn -Dtest=TestRunner test'
             }          
