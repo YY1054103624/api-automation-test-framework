@@ -1,6 +1,6 @@
 pipeline {
     parameters {
-        gitParameter(name: 'BUILD_CAUSE',type: 'string',defaultValue: "1")
+        getParameter(name: 'BUILD_CAUSE',type: 'string',defaultValue: "1")
     }
     triggers {
         cron '''TZ=Asia/Shanghai
@@ -27,6 +27,7 @@ pipeline {
                     println "build cause: ${currentBuild.getBuildCauses()}";
 
                 }
+                echo '${params.BUILD_CAUSE'
                 echo '$BRANCH_NAME'
                 // sh 'mvn -Dtest=TestRunner test'
             }          
