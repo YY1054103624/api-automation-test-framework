@@ -21,8 +21,10 @@ pipeline {
                     println "current result: ${currentBuild.currentResult}";
                     println "build URL: ${currentBuild.absoluteUrl}";
                     println "upstream build: ${currentBuild.upstreamBuilds}";
+                    println "build cause: ${currentBuild.	getBuildCauses()}";
+
                 }
-                sh 'echo $BRANCH_NAME'
+                echo '$BRANCH_NAME'
                 // sh 'mvn -Dtest=TestRunner test'
             }          
         }
