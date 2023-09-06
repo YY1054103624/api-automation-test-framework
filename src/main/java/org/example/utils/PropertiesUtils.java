@@ -58,7 +58,7 @@ public final class PropertiesUtils {
     /**
      * Store the key-value from the environment variable into environment.properties.
      */
-    public static void saveRuntimeVariables() {
+    public static synchronized void saveRuntimeVariables() {
         try(FileOutputStream fos = new FileOutputStream(getEnvironmentPropertiesPath())) {
             for (Map.Entry<String, String> entry: EnvironmentVariablesUtils.getAllVariables().entrySet()) {
                 PROPERTIES.setProperty(entry.getKey(), entry.getValue());
