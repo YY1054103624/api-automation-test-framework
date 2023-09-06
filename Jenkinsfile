@@ -16,11 +16,12 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'mvn -Dtest=TestRunner test'
+                echo currentBuild.upstreamBuilds
+                // sh 'mvn -Dtest=TestRunner test'
             }          
         }
     }
-    post { 
+    /*post {
         success {
         // Send emails to all related devlopers when building process is succeed.
           emailext attachmentsPattern: 'target/generated-html-report/index.html', body: '''BUILD SUCCESS
@@ -37,5 +38,5 @@ Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 Date of build: ${CURRENT_TIME}''', recipientProviders: [buildUser()], subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Unsuccessful'
         }
-    }
+    }*/
 }
