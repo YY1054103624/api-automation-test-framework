@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo currentBuild.upstreamBuilds
+                echo ${currentBuild.upstreamBuilds}
                 // sh 'mvn -Dtest=TestRunner test'
             }          
         }
