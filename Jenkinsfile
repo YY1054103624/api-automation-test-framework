@@ -22,12 +22,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    println "build number: ${currentBuild.number}";
-                    println "current result: ${currentBuild.currentResult}";
-                    println "build URL: ${currentBuild.absoluteUrl}";
-                    println "upstream build: ${currentBuild.upstreamBuilds}";
-                    println "build cause: ${currentBuild.	getBuildCauses()}";
-                    println "Param: ${params.NEW_BRANCH}"
+                    def cause = currentBuild.getBuildCauses();
+                    println "${cause}"
                 }
                 // sh 'mvn -Dtest=TestRunner test'
             }          
