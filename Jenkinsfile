@@ -34,7 +34,7 @@ pipeline {
         stage('When') {
             environment {
                 // MY_ENV= sh(script: 'cat /var/jenkins_home/workspace/api-automation-test/target/generated-json-report/cucumber.json', returnStdout:true).trim()
-                MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/147/log', returnStdout:true).trim()
+                MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/151/log', returnStdout:true).trim()
             }
             steps {
                 cleanWs()
