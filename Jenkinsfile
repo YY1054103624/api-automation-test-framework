@@ -44,7 +44,7 @@ pipeline {
                 println "MAVEN_BUILD_RESULT=${MAVEN_BUILD_RESULT}"
                 println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
                 println "MAVEN_TESTS_TOTAL_COUNT=${MAVEN_TESTS_TOTAL_COUNT}"
-                println "MAVEN_TESTS_FAILURE_COUNT=${MAVEN_TESTS_TOTAL_COUNT}"
+                println "MAVEN_TESTS_FAILURE_COUNT=${MAVEN_TESTS_FAILURE_COUNT}"
             }
 
         }
