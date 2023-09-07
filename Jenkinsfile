@@ -42,6 +42,11 @@ pipeline {
 
         }
     }
+    post {
+        always {
+            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src $WORKSPACE/target'
+        }
+    }
     /*post {
         success {
         // Send emails to all related devlopers when building process is succeed.
