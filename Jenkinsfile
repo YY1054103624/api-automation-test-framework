@@ -5,6 +5,7 @@ pipeline {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
     }*/
+    cleanWs()
     options {
          timeout(time: 2, unit: 'HOURS')
          timestamps()
