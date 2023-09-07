@@ -34,7 +34,8 @@ pipeline {
         stage('When') {
             environment {
                 // MY_ENV= sh(script: 'cat /var/jenkins_home/workspace/api-automation-test/target/generated-json-report/cucumber.json', returnStdout:true).trim()
-                MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/$BUILD_NUMBER/log', returnStdout:true).trim()
+                // MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/$BUILD_NUMBER/log', returnStdout:true).trim()
+                MY_ENV=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\(BUILD .*\)/\1/p'", returnStdout:true).trim()
             }
             steps {
                 println "MY_ENV=${MY_ENV}"
