@@ -1,36 +1,42 @@
+LOG_DIR="$HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log"
 pipeline {
+    agent any
     /*triggers {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
     }*/
     options {
-        timeout(time: 5, unit: 'MINUTES')
-        timestamps()
-    }
-    agent {
-        docker {
-            image 'maven:3.9.4-eclipse-temurin-17-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+         timeout(time: 2, unit: 'HOURS')
+         timestamps()
     }
     stages {
         stage('Test') {
+            agent {
+                docker {
+                    image 'maven:3.9.4-eclipse-temurin-17-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                    reuseNode true
+                }
+            }
             steps {
                 sh 'mvn -Dtest=TestRunner test'
-            }          
+
+            }
         }
         stage('Jenkins') {
-
             steps {
-                sh "env"
+                sh "whoami"
+                sh "hostname"
+                println "${LOG_DIR}"
                 println "${HUDSON_HOME}"
             }
         }
         stage('When') {
             environment {
-                MY_ENV="${sh(script: 'grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(BUILD .*\\)/\\1/p"', returnStdout:true).trim()}"
+                MY_ENV= sh(script: 'cat LOG_DIR', returnStdout:true).trim()
             }
             steps {
+
                 println "MY_ENV=${MY_ENV}"
             }
 
