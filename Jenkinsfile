@@ -37,7 +37,6 @@ pipeline {
                 MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/$BUILD_NUMBER/log', returnStdout:true).trim()
             }
             steps {
-                cleanWs()
                 println "MY_ENV=${MY_ENV}"
             }
 
