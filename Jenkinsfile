@@ -5,7 +5,6 @@ pipeline {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
     }*/
-    cleanWs()
     options {
          timeout(time: 2, unit: 'HOURS')
          timestamps()
@@ -38,7 +37,7 @@ pipeline {
                 MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/147/log', returnStdout:true).trim()
             }
             steps {
-
+                cleanWs()
                 println "MY_ENV=${MY_ENV}"
             }
 
