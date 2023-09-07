@@ -35,10 +35,12 @@ pipeline {
             environment {
                 // MY_ENV= sh(script: 'cat /var/jenkins_home/workspace/api-automation-test/target/generated-json-report/cucumber.json', returnStdout:true).trim()
                 // MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/$BUILD_NUMBER/log', returnStdout:true).trim()
-                MY_ENV=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\\(BUILD .*\\)/\\1/p'", returnStdout:true).trim()
+                MAVEN_BUILD_RESULT=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\\(BUILD .*\\)/\\1/p'", returnStdout:true).trim()
+                MAVEN_BUILD_TESTS_RESULT=sh(script: "grep "Tests run" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(Tests run.*\\)/\\1/p"", returnStdout:true).trim()
             }
             steps {
-                println "MY_ENV=${MY_ENV}"
+                println "MAVEN_BUILD_RESULT=${MAVEN_BUILD_RESULT}"
+                println "MAVEN_BUILD_TESTS_RESULT=${MAVEN_BUILD_TESTS_RESULT}"
             }
 
         }
