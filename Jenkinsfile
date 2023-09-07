@@ -1,31 +1,23 @@
 pipeline {
     agent any
-    parameters {			//参数化构建
-      choice choices: ['true', 'false'], description: '测试', name: 'test'
-      string name: 'NEW_BRANCH', defaultValue: '', description:'', trim: true
-    }
-    triggers {
+    /*triggers {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
-    }
+    }*/
     options {
         timeout(time: 5, unit: 'MINUTES')
         timestamps()
     }
-    /*agent {
+    agent {
         docker {
             image 'maven:3.9.4-eclipse-temurin-17-alpine'
             args '-v /root/.m2:/root/.m2'
         }
-    }*/
+    }
     stages {
         stage('Test') {
             steps {
-                script {
-                    def cause = currentBuild.getBuildCauses();
-                    println "${cause}"
-                }
-                // sh 'mvn -Dtest=TestRunner test'
+                sh 'mvn -Dtest=TestRunner test'
             }          
         }
     }
