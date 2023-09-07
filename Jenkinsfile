@@ -19,6 +19,22 @@ pipeline {
                 sh 'mvn -Dtest=TestRunner test'
             }          
         }
+        stage('Jenkins') {
+
+            steps {
+                sh "env"
+                println "${HUDSON_HOME}"
+            }
+        }
+        stage('When') {
+            environment {
+                MY_ENV="${sh(script: 'grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(BUILD .*\\)/\\1/p"', returnStdout:true).trim()}"
+            }
+            steps {
+                println "MY_ENV=${MY_ENV}"
+            }
+
+        }
     }
     /*post {
         success {
