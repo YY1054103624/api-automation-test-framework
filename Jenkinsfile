@@ -7,7 +7,6 @@ pipeline {
     }*/
     options {
          timeout(time: 2, unit: 'HOURS')
-         timestamps()
     }
     stages {
         stage('Test') {
@@ -33,7 +32,8 @@ pipeline {
         }
         stage('When') {
             environment {
-                MY_ENV= sh(script: 'cat $WORKSPACE/$JOB_NAME/target/generated-html-report/index.html', returnStdout:true).trim()
+                // MY_ENV= sh(script: 'cat /var/jenkins_home/workspace/api-automation-test/target/generated-json-report/cucumber.json', returnStdout:true).trim()
+                MY_ENV= sh(script: 'cat /var/jenkins_home/jobs/api-automation-test/builds/147/log', returnStdout:true).trim()
             }
             steps {
 
