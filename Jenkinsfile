@@ -1,5 +1,4 @@
 pipeline {
-    agent none
     /*triggers {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
