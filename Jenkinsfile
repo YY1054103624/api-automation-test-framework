@@ -33,7 +33,7 @@ pipeline {
         }
         stage('When') {
             environment {
-                MY_ENV= sh(script: 'cat LOG_DIR', returnStdout:true).trim()
+                MY_ENV= sh(script: 'cat $WORKSPACE/$JOB_NAME/target/generated-html-report/index.html', returnStdout:true).trim()
             }
             steps {
 
