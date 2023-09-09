@@ -1,4 +1,7 @@
-LOG_DIR="$HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log"
+MAVEN_BUILD_RESULT="default"
+MAVEN_TESTS_RESULT="default"
+MAVEN_TESTS_TOTAL_COUNT="default"
+MAVEN_TESTS_FAILURE_COUNT="default"
 pipeline {
     agent any
     /*triggers {
@@ -56,11 +59,18 @@ pipeline {
                     attachLog: true,
                     attachmentsPattern: 'target/generated-html-report/index.html',
                     body:
-'''BUILD SUCCESS
+'''
+Jenkins Build result: ${currentBuild.currentResult}
+Maven build result: ${env.MAVEN_BUILD_RESULT}
 
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 Date of build: ${CURRENT_TIME}
+Run Artifacts: ${env.RUN_ARTIFACTS_DISPLAY_URL}
+Test Artifacts: ${env.RUN_TESTS_DISPLAY_URL}
+
+Test results:
+${env.MAVEN_TESTS_RESULT}
 ''',
                     subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful',
                     to: '18301926330@163.com'
