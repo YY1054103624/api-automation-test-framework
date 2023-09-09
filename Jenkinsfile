@@ -1,7 +1,3 @@
-MAVEN_BUILD_RESULT="default"
-MAVEN_TESTS_RESULT="default"
-MAVEN_TESTS_TOTAL_COUNT="default"
-MAVEN_TESTS_FAILURE_COUNT="default"
 pipeline {
     agent any
     /*triggers {
@@ -15,6 +11,13 @@ pipeline {
          timeout(time: 2, unit: 'HOURS')
          timestamps()
     }
+   environment {
+        MAVEN_BUILD_RESULT="default"
+        MAVEN_TESTS_RESULT="default"
+        MAVEN_TESTS_TOTAL_COUNT="default"
+        MAVEN_TESTS_FAILURE_COUNT="default"
+
+   }
     stages {
         stage('Test') {
             agent {
