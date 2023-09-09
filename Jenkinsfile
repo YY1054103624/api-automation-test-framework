@@ -70,10 +70,14 @@ Project Name: ${PROJECT_NAME}
 Date of build: ${CURRENT_TIME}
 
 Test results:
+Maven result: ${ENV,var="MAVEN_TESTS_RESULT"}
+Failed Tests: ${FAILED_TESTS}
+
 Total: ${TEST_COUNTS,var="total"}
 Total: ${TEST_COUNTS,var="pass"}
 Total: ${TEST_COUNTS,var="fail"}
 Total: ${TEST_COUNTS,var="skip"}
+
 ''',
                     subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful',
                     to: '18301926330@163.com'
