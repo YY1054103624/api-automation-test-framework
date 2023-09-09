@@ -46,6 +46,20 @@ pipeline {
             }
 
         }
+        stage('Send Email') {
+            steps {
+                emailext attachmentsPattern: 'target/generated-html-report/index.html',
+                body:
+'''BUILD SUCCESS
+
+Build URL: ${BUILD_URL}
+Project Name: ${PROJECT_NAME}
+Date of build: ${CURRENT_TIME}
+''',
+                subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful',
+                to: 'cc:18301926330@163.com'}
+            }
+        }
     }
     post {
         always {
