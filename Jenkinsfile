@@ -11,13 +11,6 @@ pipeline {
          timeout(time: 2, unit: 'HOURS')
          timestamps()
     }
-   environment {
-        MAVEN_BUILD_RESULT="default"
-        MAVEN_TESTS_RESULT="default"
-        MAVEN_TESTS_TOTAL_COUNT="default"
-        MAVEN_TESTS_FAILURE_COUNT="default"
-
-   }
     stages {
         stage('Test') {
             agent {
@@ -41,21 +34,13 @@ pipeline {
                 println "${params.COMMIT_INFO}"
             }
         }
-        stage('When') {
-            environment {
-                // MAVEN_BUILD_RESULT=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\(BUILD .*\)/\1/p'", returnStdout:true).trim()
-                // MAVEN_TESTS_RESULT=sh(script: 'grep "Tests run" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\(Tests run.*\)/\1/p"', returnStdout:true).trim()
-                withEnv(['MAVEN_TESTS_RESULT=sh(script: 'grep "Tests run" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\(Tests run.*\)/\1/p"', returnStdout:true).trim()']) {}
-                // MAVEN_TESTS_TOTAL_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Tests run: \([0-9]\),.*/\1/p"', returnStdout:true).trim()
-                // MAVEN_TESTS_FAILURE_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Failures: \([0-9]\),.*/\1/p"', returnStdout:true).trim()
-            }
-            steps {
-                println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
-                println "Hello world"
-            }
-
-        }
         stage('Send Email') {
+            environment {
+                MAVEN_BUILD_RESULT=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\(BUILD .*\)/\1/p'", returnStdout:true).trim()
+                MAVEN_TESTS_RESULT=sh(script: 'grep "Tests run" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\(Tests run.*\)/\1/p"', returnStdout:true).trim()
+                MAVEN_TESTS_TOTAL_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Tests run: \([0-9]\),.*/\1/p"', returnStdout:true).trim()
+                MAVEN_TESTS_FAILURE_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Failures: \([0-9]\),.*/\1/p"', returnStdout:true).trim()
+            }
             steps {
                 println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
                 emailext (
@@ -63,22 +48,16 @@ pipeline {
                     attachmentsPattern: 'target/generated-html-report/index.html',
                     body:
 '''
+Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
 
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 Date of build: ${CURRENT_TIME}
 
 Test results:
-Maven result: ${ENV,var="MAVEN_TESTS_RESULT"}
-Failed Tests: ${FAILED_TESTS}
-
-Total: ${TEST_COUNTS,var="total"}
-Total: ${TEST_COUNTS,var="pass"}
-Total: ${TEST_COUNTS,var="fail"}
-Total: ${TEST_COUNTS,var="skip"}
-
+${ENV,var="MAVEN_TESTS_RESULT"}
 ''',
-                    subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful',
+                    subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}',
                     to: '18301926330@163.com'
                 )
             }
