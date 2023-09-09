@@ -48,18 +48,19 @@ pipeline {
         }
         stage('Send Email') {
             steps {
-                emailext
-                attachLog: true,
-                attachmentsPattern: 'target/generated-html-report/index.html',
-                body:
+                emailext (
+                    attachLog: true,
+                    attachmentsPattern: 'target/generated-html-report/index.html',
+                    body:
 '''BUILD SUCCESS
 
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 Date of build: ${CURRENT_TIME}
 ''',
-                subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful',
-                to: '18301926330@163.com'
+                    subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful',
+                    to: '18301926330@163.com'
+                )
             }
         }
     }
