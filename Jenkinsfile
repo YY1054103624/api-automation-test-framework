@@ -22,7 +22,11 @@ pipeline {
                 }
             }
             steps {
-                sh 'mvn -Dtest=TestRunner test'
+                script {
+                    catchError(message: 'Maven build failure', stageResult: 'FAILURE') {
+                        sh 'mvn -Dtest=TestRunner test'
+                    }
+                }
 
             }
         }
