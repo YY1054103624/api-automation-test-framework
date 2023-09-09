@@ -5,6 +5,9 @@ pipeline {
         cron '''TZ=Asia/Shanghai
         H 10 * * 1-5'''
     }*/
+    parameters {
+        string defaultValue: 'no commit info', name: 'COMMIT_INFO'
+    }
     options {
          timeout(time: 2, unit: 'HOURS')
          timestamps()
@@ -25,10 +28,7 @@ pipeline {
         }
         stage('Jenkins') {
             steps {
-                sh "whoami"
-                sh "hostname"
-                println "${LOG_DIR}"
-                println "${HUDSON_HOME}"
+                println "${COMMIT_INFO}"
             }
         }
         stage('When') {
