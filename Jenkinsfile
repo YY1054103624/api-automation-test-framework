@@ -49,6 +49,10 @@ pipeline {
                 MAVEN_TESTS_FAILURE_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Failures: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
             }
             steps {
+                println "MAVEN_BUILD_RESULT=${MAVEN_BUILD_RESULT}"
+                println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
+                println "MAVEN_TESTS_TOTAL_COUNT=${MAVEN_TESTS_TOTAL_COUNT}"
+                println "MAVEN_TESTS_FAILURE_COUNT=${MAVEN_TESTS_FAILURE_COUNT}"
                 println "Hello world"
             }
 
