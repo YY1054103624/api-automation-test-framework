@@ -6,7 +6,7 @@ Feature: Add pets
     When User sends a request
     |endpoint|method|contendType     |requestBodyFileName   |
     |/pet    |post  |application/json|add_a_pet.json        |
-    Then Verify status code is 200
+    Then Verify status code is 201
     Then Save data from response
     |id   |category.name|name|
     |petId|category     |petName|
