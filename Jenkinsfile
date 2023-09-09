@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Jenkins') {
             steps {
-                println "${COMMIT_INFO}"
+                println "${params.COMMIT_INFO}"
             }
         }
         stage('When') {
