@@ -62,7 +62,7 @@ Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
 Date of build: ${CURRENT_TIME}
 Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
 
-Report URL: ${BUILD_URL}My_20Report/
+Report URL: ${BUILD_URL}Test_20Report/
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 GIT_REVISION: ${GIT_REVISION}
