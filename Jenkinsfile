@@ -77,19 +77,13 @@ ${params.COMMIT_INFO}
     post {
         always {
             script {
-                            publishHTML(
-                                [
-                                    allowMissing: false,
-                                    alwaysLinkToLastBuild: false,
-                                    keepAll: false,
-                                    reportDir: 'target/generated-html-report',
-                                    reportFiles: 'index.html',
-                                    reportName: 'HTML Report',
-                                    reportTitles: '',
-                                    useWrapperFileDirectly: true
-                                ]
-                            )
-            }
+publishHTML (target : [allowMissing: false,
+ alwaysLinkToLastBuild: true,
+ keepAll: true,
+ reportDir: 'target/generated-html-report',
+ reportFiles: 'index.html',
+ reportName: 'My Reports',
+ reportTitles: 'The Report'])            }
             sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src'
         }
     }
