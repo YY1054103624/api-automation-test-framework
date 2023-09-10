@@ -47,8 +47,6 @@ pipeline {
             }
         }
         stage('Send Email') {
-            environment {
-            }
             /*when {
               allOf {
                 triggeredBy 'BuildUpstreamCause'
