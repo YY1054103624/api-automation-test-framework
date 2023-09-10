@@ -1,3 +1,4 @@
+// env.MAVEN_TESTS_RESULT_SUMMARY='default'
 pipeline {
     agent any
     /*triggers {
@@ -10,6 +11,9 @@ pipeline {
     options {
          timeout(time: 2, unit: 'HOURS')
          timestamps()
+    }
+    environment {
+       MAVEN_TESTS_RESULT_SUMMARY='default'
     }
     stages {
         stage('Test') {
@@ -30,11 +34,11 @@ pipeline {
             }
         }
         stage('Jenkins') {
+            environment {
+                MAVEN_TESTS_RESULT_SUMMARY=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(Tests run.*\\)/\\1/p"', returnStdout:true).trim()
+            }
             steps {
-                withEnv(['MAVEN_TESTS_RESULT_SUMMARY=sh(script: \'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\\\(Tests run.*\\\\)/\\\\1/p"\', returnStdout:true).trim()']) {
-                    println "${MAVEN_TESTS_RESULT_SUMMARY}"
-                }
-                println "out: ${MAVEN_TESTS_RESULT_SUMMARY}"
+                println "in: ${MAVEN_TESTS_RESULT_SUMMARY}"
                 println "${params.COMMIT_INFO}"
             }
         }
@@ -52,6 +56,8 @@ pipeline {
               }
             }*/
             steps {
+
+                println "out: ${MAVEN_TESTS_RESULT_SUMMARY}"
                 println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
                 emailext (
                     attachLog: true,
