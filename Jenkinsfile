@@ -42,11 +42,11 @@ pipeline {
                 MAVEN_TESTS_TOTAL_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Tests run: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
                 MAVEN_TESTS_FAILURE_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Failures: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
             }
-            when {
+            /*when {
               allOf {
                 triggeredBy 'BuildUpstreamCause'
               }
-            }
+            }*/
             steps {
                 println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
                 emailext (
@@ -69,7 +69,7 @@ ${ENV,var="MAVEN_TESTS_RESULT"}
 Committer:
 ${params.COMMIT_INFO}
 ''',
-                    subject: '${PROJECT_NAME} - Started by Upstream project - ${MAVEN_BUILD_RESULT}',
+                    subject: '${PROJECT_NAME} - Started by Upstream project - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '18301926330@163.com'
                 )
             }
