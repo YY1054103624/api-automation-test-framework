@@ -55,26 +55,20 @@ pipeline {
                     body:
 '''
 Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
+Date of build: ${CURRENT_TIME}
+Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
 
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
-Date of build: ${CURRENT_TIME}
+GIT_REVISION: ${GIT_REVISION}
 
-Test results:
+Test run:
 ${ENV,var="MAVEN_TESTS_RESULT"}
 
-Build URL: ${BUILD_URL}
-Project Name: ${PROJECT_NAME}
-Date of build: ${CURRENT_TIME}
-GIT_BRANCH: ${GIT_BRANCH}
-GIT_REVISION: ${GIT_REVISION}
-ADMIN_EMAIL: ${ADMIN_EMAIL}
-BUILD_CAUSE CAUSE: ${BUILD_CAUSE} ${CAUSE}
-BUILD_LOG_EXCERPT: ${BUILD_LOG_EXCERPT, start="[INFO]  T E S T S", end="$ docker stop --time=1"}
-CHANGES_SINCE_LAST_BUILD  CHANGES: ${CHANGES_SINCE_LAST_BUILD, showDependencies=true, showPaths=true}
-JENKINS_URL: ${JENKINS_URL}
+Committer:
+${params.COMMIT_INFO}
 ''',
-                    subject: '${PROJECT_NAME}- ${BUILD_STATUS}: ${ENV, var="MAVEN_TESTS_RESULT_SUMMARY"}',
+                    subject: '${PROJECT_NAME} - Started by Upstream project - ${MAVEN_BUILD_RESULT}',
                     to: '18301926330@163.com'
                 )
             }
@@ -85,22 +79,4 @@ JENKINS_URL: ${JENKINS_URL}
             sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src $WORKSPACE/target'
         }
     }
-    /*post {
-        success {
-        // Send emails to all related devlopers when building process is succeed.
-          emailext attachmentsPattern: 'target/generated-html-report/index.html', body: '''BUILD SUCCESS
-
-Build URL: ${BUILD_URL}
-Project Name: ${PROJECT_NAME}
-Date of build: ${CURRENT_TIME}
-''', recipientProviders: [contributor()], subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Succcessful', to: 'cc:1054103624@qq.com'}
-        failure {
-        // Send the email to the builder when building process is failed.
-            emailext attachLog: true, body: '''BUILD SUCCESS
-
-Build URL: ${BUILD_URL}
-Project Name: ${PROJECT_NAME}
-Date of build: ${CURRENT_TIME}''', recipientProviders: [buildUser()], subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - Unsuccessful'
-        }
-    }*/
 }
