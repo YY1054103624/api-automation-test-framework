@@ -41,6 +41,11 @@ pipeline {
                 MAVEN_TESTS_TOTAL_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Tests run: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
                 MAVEN_TESTS_FAILURE_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Failures: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
             }
+            when {
+              allOf {
+                triggeredBy 'BuildUpstreamCause'
+              }
+            }
             steps {
                 println "MAVEN_TESTS_RESULT=${MAVEN_TESTS_RESULT}"
                 emailext (
@@ -64,8 +69,7 @@ GIT_BRANCH: ${GIT_BRANCH}
 GIT_REVISION: ${GIT_REVISION}
 ADMIN_EMAIL: ${ADMIN_EMAIL}
 BUILD_CAUSE CAUSE: ${BUILD_CAUSE} ${CAUSE}
-BUILD_LOG_EXCERPT: ${BUILD_LOG_EXCERPT, start="Generic Cause", end="Contributing variables:"}
-BUILD_LOG: ${BUILD_LOG, maxLines=10}
+BUILD_LOG_EXCERPT: ${BUILD_LOG_EXCERPT, start="[INFO] -------------------------------------------------------", end="$ docker stop --time=1"}
 CHANGES_SINCE_LAST_BUILD  CHANGES: ${CHANGES_SINCE_LAST_BUILD, showDependencies=true, showPaths=true}
 JENKINS_URL: ${JENKINS_URL}
 ''',
