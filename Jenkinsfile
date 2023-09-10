@@ -42,6 +42,7 @@ pipeline {
                     env.COMMITTED_INFO="${params.COMMIT_INFO}";
                 }
                 println "${params.COMMIT_INFO}"
+                println "${currentBuild.getBuildCauses}"
             }
         }
         stage('Send Emails - Build by Upstream') {
