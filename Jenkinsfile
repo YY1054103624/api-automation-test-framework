@@ -38,6 +38,7 @@ pipeline {
             environment {
                 MAVEN_BUILD_RESULT=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\\(BUILD .*\\)/\\1/p'", returnStdout:true).trim()
                 MAVEN_TESTS_RESULT=sh(script: 'grep "Tests run" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(Tests run.*\\)/\\1/p"', returnStdout:true).trim()
+                MAVEN_TESTS_RESULT_SUMMARY=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(Tests run.*\\)/\\1/p"', returnStdout:true).trim()
                 MAVEN_TESTS_TOTAL_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Tests run: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
                 MAVEN_TESTS_FAILURE_COUNT=sh(script: 'grep "Tests run:.*[0-9]$" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*Failures: \\([0-9]\\),.*/\\1/p"', returnStdout:true).trim()
             }
@@ -69,11 +70,11 @@ GIT_BRANCH: ${GIT_BRANCH}
 GIT_REVISION: ${GIT_REVISION}
 ADMIN_EMAIL: ${ADMIN_EMAIL}
 BUILD_CAUSE CAUSE: ${BUILD_CAUSE} ${CAUSE}
-BUILD_LOG_EXCERPT: ${BUILD_LOG_EXCERPT, start="[INFO] -------------------------------------------------------", end="$ docker stop --time=1"}
+BUILD_LOG_EXCERPT: ${BUILD_LOG_EXCERPT, start="[INFO]  T E S T S", end="$ docker stop --time=1"}
 CHANGES_SINCE_LAST_BUILD  CHANGES: ${CHANGES_SINCE_LAST_BUILD, showDependencies=true, showPaths=true}
 JENKINS_URL: ${JENKINS_URL}
 ''',
-                    subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}',
+                    subject: '${PROJECT_NAME}- ${BUILD_STATUS}: ${ENV, var="MAVEN_TESTS_RESULT_SUMMARY"}',
                     to: '18301926330@163.com'
                 )
             }
