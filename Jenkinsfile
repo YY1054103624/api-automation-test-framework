@@ -46,12 +46,12 @@ pipeline {
                 println "${params.COMMIT_INFO}"
             }
         }
-        stage('Send Email') {
-            /*when {
+        stage('Send Emails - Build by Upstream') {
+            when {
               allOf {
                 triggeredBy 'BuildUpstreamCause'
               }
-            }*/
+            }
             steps {
                 println "out: ${MAVEN_TESTS_RESULT_SUMMARY}"
                 println "info: ${COMMITTED_INFO}"
@@ -64,7 +64,7 @@ Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
 Date of build: ${CURRENT_TIME}
 Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
 
-Report URL: ${JENKINS_URL}/job/${PROJECT_NAME}/${BUILD_NUMBER}/My_20Report/
+Report URL: ${BUILD_URL}My_20Report/
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 GIT_REVISION: ${GIT_REVISION}
@@ -77,6 +77,37 @@ ${ENV,var="COMMITTED_INFO"}
 ''',
                     subject: '${PROJECT_NAME} - Started by Upstream project - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '18301926330@163.com'
+                )
+            }
+        }
+        stage('Send Emails - Build by Push code to api-automation-test repository') {
+            when {
+              allOf {
+                triggeredBy 'SCMTrigger'
+              }
+            }
+            steps {
+                println "out: ${MAVEN_TESTS_RESULT_SUMMARY}"
+                println "info: ${COMMITTED_INFO}"
+                emailext (
+                    attachLog: true,
+                    attachmentsPattern: 'target/generated-html-report/index.html',
+                    body:
+'''
+Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
+Date of build: ${CURRENT_TIME}
+Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
+
+Report URL: ${BUILD_URL}My_20Report/
+Build URL: ${BUILD_URL}
+Project Name: ${PROJECT_NAME}
+GIT_REVISION: ${GIT_REVISION}
+
+Test run:
+${ENV,var="MAVEN_TESTS_RESULT"}
+''',
+                    subject: '${PROJECT_NAME} - Started by Upstream project - ${ENV,var="MAVEN_BUILD_RESULT"}',
+                    to: '1054103624@qq.com'
                 )
             }
         }
