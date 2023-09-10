@@ -81,7 +81,7 @@ ${ENV,var="COMMITTED_INFO"}
         stage('Send Emails - Build by Push code to api-automation-test repository') {
             when {
               allOf {
-                triggeredBy 'SCMTrigger'
+                triggeredBy 'GitHubPushCause'
               }
             }
             steps {
