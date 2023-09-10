@@ -43,6 +43,7 @@ pipeline {
                     println "Trigger: ${currentBuild.getBuildCauses}"
                 }
                 println "${params.COMMIT_INFO}"
+
             }
         }
         stage('Send Emails - Build by Upstream') {
