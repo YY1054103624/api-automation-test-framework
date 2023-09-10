@@ -81,7 +81,7 @@ ${params.COMMIT_INFO}
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: false,
-                    reportDir: 'target/generated-html-report/',
+                    reportDir: 'target/generated-html-report/index.html',
                     reportFiles: 'index.html',
                     reportName: 'HTML Report',
                     reportTitles: '',
