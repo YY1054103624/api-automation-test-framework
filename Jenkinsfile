@@ -66,8 +66,6 @@ GIT_REVISION: ${GIT_REVISION}
 Test run:
 ${ENV,var="MAVEN_TESTS_RESULT"}
 
-Committer:
-${params.COMMIT_INFO}
 ''',
                     subject: '${PROJECT_NAME} - Started by Upstream project - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '18301926330@163.com'
