@@ -76,7 +76,19 @@ ${params.COMMIT_INFO}
     }
     post {
         always {
-            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src $WORKSPACE/target'
+            publishHTML(
+                [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'target/generated-html-report/',
+                    reportFiles: 'index.html',
+                    reportName: 'HTML Report',
+                    reportTitles: '',
+                    useWrapperFileDirectly: true
+                ]
+            )
+            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src'
         }
     }
 }
