@@ -58,6 +58,7 @@ Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
 Date of build: ${CURRENT_TIME}
 Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
 
+Report URL: ${JENKINS_URL}/job/${PROJECT_NAME}/${BUILD_NUMBER}/My_20Reports/
 Build URL: ${BUILD_URL}
 Project Name: ${PROJECT_NAME}
 GIT_REVISION: ${GIT_REVISION}
@@ -77,13 +78,19 @@ ${params.COMMIT_INFO}
     post {
         always {
             script {
-publishHTML (target : [allowMissing: false,
- alwaysLinkToLastBuild: true,
- keepAll: true,
- reportDir: 'target/generated-html-report',
- reportFiles: 'index.html',
- reportName: 'My Reports',
- reportTitles: 'The Report'])            }
+                publishHTML (
+                    target :
+                        [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: true,
+                            keepAll: true,
+                            reportDir: 'target/generated-html-report',
+                            reportFiles: 'index.html',
+                            reportName: 'Test report',
+                            reportTitles: ''
+                        ]
+                )
+            }
             sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src'
         }
     }
