@@ -56,6 +56,18 @@ Date of build: ${CURRENT_TIME}
 
 Test results:
 ${ENV,var="MAVEN_TESTS_RESULT"}
+
+Build URL: ${BUILD_URL}
+Project Name: ${PROJECT_NAME}
+Date of build: ${CURRENT_TIME}
+GIT_BRANCH: ${GIT_BRANCH}
+GIT_REVISION: ${GIT_REVISION}
+ADMIN_EMAIL: ${ADMIN_EMAIL}
+BUILD_CAUSE CAUSE: ${BUILD_CAUSE} ${CAUSE}
+BUILD_LOG_EXCERPT: ${BUILD_LOG_EXCERPT, start="Generic Cause", end="Contributing variables:"}
+BUILD_LOG: ${BUILD_LOG, maxLines=10}
+CHANGES_SINCE_LAST_BUILD  CHANGES: ${CHANGES_SINCE_LAST_BUILD, showDependencies=true, showPaths=true}
+JENKINS_URL: ${JENKINS_URL}
 ''',
                     subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}',
                     to: '18301926330@163.com'
