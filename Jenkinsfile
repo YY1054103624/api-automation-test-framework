@@ -40,10 +40,7 @@ pipeline {
                     env.MAVEN_BUILD_RESULT=sh(script: "grep BUILD $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e 's/^.*\\(BUILD .*\\)/\\1/p'", returnStdout:true).trim()
                     env.MAVEN_TESTS_RESULT=sh(script: 'grep "Tests run.*Failures" $HUDSON_HOME/jobs/$JOB_NAME/builds/$BUILD_NUMBER/log | sed -n -e "s/^.*\\(Tests run.*\\)/\\1/p"', returnStdout:true).trim()
                     env.COMMITTED_INFO="${params.COMMIT_INFO}";
-                    println "Trigger: ${currentBuild.getBuildCauses()}"
                 }
-                println "${params.COMMIT_INFO}"
-
             }
         }
         stage('Send Emails - Build by Upstream') {
@@ -73,7 +70,7 @@ ${ENV,var="MAVEN_TESTS_RESULT"}
 Commit info:
 ${ENV,var="COMMITTED_INFO"}
 ''',
-                    subject: '${PROJECT_NAME} - Started by Upstream project - ${ENV,var="MAVEN_BUILD_RESULT"}',
+                    subject: '${PROJECT_NAME} - Started by BuildUpstreamCause - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '18301926330@163.com'
                 )
             }
@@ -104,7 +101,7 @@ GIT_REVISION: ${GIT_REVISION}
 Test run:
 ${ENV,var="MAVEN_TESTS_RESULT"}
 ''',
-                    subject: '${PROJECT_NAME} - Started by Upstream project - ${ENV,var="MAVEN_BUILD_RESULT"}',
+                    subject: '${PROJECT_NAME} - Started by GitHubPushCause - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '1054103624@qq.com'
                 )
             }
