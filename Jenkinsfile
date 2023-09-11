@@ -19,11 +19,17 @@ pipeline {
                     key: 'COMMIT_INFO', 
                     regexpFilter: '', 
                     value: '$.commits[0:].[\'message\', \'committer\', \'added\', \'removed\', \'modified\']'
+                ],
+                [
+                    defaultValue: '',
+                    key: 'committer_name',
+                    regexpFilter: '',
+                    value: '$.commits[0].committer.name'
                 ]
             ],
             printPostContent: true,
-            // regexpFilterExpression: '$.commits[0].committer.username', 
-            // regexpFilterText: 'web-flow',
+            regexpFilterExpression: '^((?!GitHub))',
+            regexpFilterText: '$committer_name',
             token: 'my_trigger_token', 
             tokenCredentialId: ''
         )
