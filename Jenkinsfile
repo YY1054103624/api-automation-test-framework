@@ -26,6 +26,7 @@ pipeline {
             tokenCredentialId: ''
         )
     }
+    
     parameters {
         string defaultValue: 'default', name: 'COMMIT_INFO'
     }
