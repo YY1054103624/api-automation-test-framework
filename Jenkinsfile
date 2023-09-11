@@ -69,7 +69,7 @@ pipeline {
                 }
             }
         }
-        stage('Set global variables from upstream build') {
+        stage('Set global variables from Generic Webhook Trigger') {
             steps {
                 script {
                     if (params.COMMIT_INFO != 'default') {
@@ -128,7 +128,7 @@ pipeline {
                         ]
                 )
             }
-            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src email_content_template'
+            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src'
         }
     }
 }
