@@ -32,7 +32,7 @@ pipeline {
             printContributedVariables: true,
             regexpFilterExpression: '^((?!GitHub))',
             regexpFilterText: '$committer_name',
-            token: 'my_trigger_token', 
+            token: 'api-automation-test-token',
             tokenCredentialId: ''
         )
     }
