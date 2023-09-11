@@ -2,6 +2,7 @@ import groovy.json.JsonSlurper
 
 env.EMAIL_COMMIT_INFO='default'
 env.EMAIL_ADDRESSES='default'
+env.TRIGGER_CAUSE=getTriggerCause(currentBuild.getBuildCauses())
 
 env.MAVEN_TESTS_RESULT_SUMMARY='default'
 env.MAVEN_BUILD_RESULT='default'
@@ -90,31 +91,22 @@ pipeline {
         }
     }
     post {
-        success {
-            script {
-                if (isEmailNeeded(currentBuild.getBuildCauses())) {
-                    emailext (
-                    body: '${FILE, path="email_content_template"}',
-                    subject: '${PROJECT_NAME} - Started by BuildUpstreamCause - ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}',
-                    to: '${ENV, var="EMAIL_ADDRESSES"}'
-                    )
-                }
-                
-            }
-        }
         failure {
             script {
-                if (isEmailNeeded(currentBuild.getBuildCauses())) {
-                    emailext (
-                    body: '${FILE, path="email_content_template"}',
-                    subject: '${PROJECT_NAME} - Started by BuildUpstreamCause - ${ENV,var="MAVEN_BUILD_RESULT"}',
-                    to: '${ENV, var="EMAIL_ADDRESSES"}'
-                    )
-                }
             }
         }
         always {
             script {
+                if (isEmailNeeded(currentBuild.getBuildCauses())) {
+                    emailext (
+                    body: '${FILE, path="email_content_template"}',
+                    subject: '${PROJECT_NAME} - Started by ${ENV, var="TRIGGER_CAUSE"} - ${ENV,var="MAVEN_BUILD_RESULT"}',
+                    to: '${ENV, var="EMAIL_ADDRESSES"}',
+                    attachLog: true,
+                    attachmentsPattern: 'target/generated-html-report/index.html',
+                    presendScript: 'System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")'
+                    )
+                }
                 publishHTML (
                     target :
                         [
