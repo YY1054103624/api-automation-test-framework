@@ -9,7 +9,7 @@ env.MAVEN_TESTS_RESULT='default';
 env.COMMITTED_INFO='default'
 pipeline {
     agent any
-    
+
     triggers {
         GenericTrigger (
             causeString: 'Generic Cause', 
@@ -79,16 +79,6 @@ pipeline {
                     env.EMAIL_COMMIT_INFO=formattedCommitsInfo
                     env.EMAIL_ADDRESSES=emailAddresses
                 }
-            }
-        }
-        stage('Send Emails - Build by Upstream') {
-            when {
-              allOf {
-                triggeredBy 'BuildUpstreamCause'
-              }
-            }
-            steps {
-                
             }
         }
         stage('Send Emails - Build by Push code to api-automation-test repository') {
