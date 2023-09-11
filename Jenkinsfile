@@ -9,6 +9,26 @@ env.MAVEN_TESTS_RESULT='default';
 env.COMMITTED_INFO='default'
 pipeline {
     agent any
+    
+    triggers {
+        GenericTrigger (
+            causeString: 'Generic Cause', 
+            genericVariables: [
+                [
+                    defaultValue: '', 
+                    key: 'COMMIT_INFO', 
+                    regexpFilter: '', 
+                    value: '$.commits[0:].[\'message\', \'committer\', \'added\', \'removed\', \'modified\']'
+                ]
+            ], 
+            regexpFilterExpression: '', 
+            regexpFilterText: '', 
+            token: 'my_trigger_token', 
+            tokenCredentialId: '',
+            printContributedVariables: true, 
+            printPostContent: true
+        )
+    }
     parameters {
         string defaultValue: 'no commit info', name: 'COMMIT_INFO'
     }
