@@ -81,37 +81,6 @@ pipeline {
                 }
             }
         }
-        stage('Send Emails - Build by Push code to api-automation-test repository') {
-            when {
-              allOf {
-                triggeredBy 'GitHubPushCause'
-              }
-            }
-            steps {
-                println "out: ${MAVEN_TESTS_RESULT_SUMMARY}"
-                println "info: ${COMMITTED_INFO}"
-                emailext (
-                    attachLog: true,
-                    attachmentsPattern: 'target/generated-html-report/index.html',
-                    body:
-'''
-Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
-Date of build: ${CURRENT_TIME}
-Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
-
-Report URL: ${BUILD_URL}My_20Report/
-Build URL: ${BUILD_URL}
-Project Name: ${PROJECT_NAME}
-GIT_REVISION: ${GIT_REVISION}
-
-Test run:
-${ENV,var="MAVEN_TESTS_RESULT"}
-''',
-                    subject: '${PROJECT_NAME} - Started by GitHubPushCause - ${ENV,var="MAVEN_BUILD_RESULT"}',
-                    to: '1054103624@qq.com'
-                )
-            }
-        }
     }
     post {
         success {
