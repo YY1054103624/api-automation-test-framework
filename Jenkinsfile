@@ -99,8 +99,7 @@ pipeline {
                     subject: '${PROJECT_NAME} - Started by ${ENV, var="TRIGGER_CAUSE"} - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '${ENV, var="EMAIL_ADDRESSES"}',
                     attachLog: true,
-                    attachmentsPattern: 'target/generated-html-report/index.html',
-                    presendScript: 'System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "")'
+                    attachmentsPattern: 'target/generated-html-report/index.html'
                     )
                 }
                 publishHTML (
