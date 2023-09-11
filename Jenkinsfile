@@ -25,8 +25,7 @@ pipeline {
             regexpFilterText: '', 
             token: 'my_trigger_token', 
             tokenCredentialId: '',
-            printContributedVariables: true, 
-            printPostContent: true
+            regexpFilterExpression: '$.commits[0].committer.username', regexpFilterText: 'web-flow'
         )
     }
     parameters {
@@ -169,13 +168,13 @@ def isEmailNeeded(cause) {
             return true;
         case "Cause\$UserIdCause":
             println "Build by a Jenkins user";
-            return true;
+            return false;
         case "GenericCause":
             println "Build by Generic Webhook Trigger";
             return true;
         case "TimerTrigger":
             println "Build by Build periodically";
-            return true;
+            return false;
         default:
             println "${pureCause} isn't supported.";
             return true;
