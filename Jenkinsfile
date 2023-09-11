@@ -23,6 +23,7 @@ pipeline {
             ], 
             regexpFilterExpression: '$.commits[0].committer.username', 
             regexpFilterText: 'web-flow',
+            token: 'my_trigger_token', 
             tokenCredentialId: ''
         )
     }
