@@ -182,7 +182,7 @@ def isEmailNeeded(cause) {
             return false;
         default:
             println "${pureCause} isn't supported.";
-            return true;
+            return false;
     }
 }
 
