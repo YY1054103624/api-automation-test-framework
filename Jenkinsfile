@@ -91,10 +91,6 @@ pipeline {
         }
     }
     post {
-        failure {
-            script {
-            }
-        }
         always {
             script {
                 if (isEmailNeeded(currentBuild.getBuildCauses())) {
