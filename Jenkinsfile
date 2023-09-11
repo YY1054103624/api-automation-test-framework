@@ -21,6 +21,7 @@ pipeline {
                     value: '$.commits[0:].[\'message\', \'committer\', \'added\', \'removed\', \'modified\']'
                 ]
             ],
+            printPostContent: true,
             // regexpFilterExpression: '$.commits[0].committer.username', 
             // regexpFilterText: 'web-flow',
             token: 'my_trigger_token', 
