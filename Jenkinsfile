@@ -28,6 +28,7 @@ pipeline {
                 ]
             ],
             printPostContent: true,
+            printContributedVariables: true,
             regexpFilterExpression: '^((?!GitHub1233))',
             regexpFilterText: '$committer_name',
             token: 'my_trigger_token', 
