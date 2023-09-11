@@ -1,0 +1,10 @@
+Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
+Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
+
+Report URL: ${BUILD_URL}Test_20Report/
+Build URL: ${BUILD_URL}
+Project Name: ${PROJECT_NAME}
+GIT_REVISION: ${GIT_REVISION}
+
+Test run:
+${ENV,var="MAVEN_TESTS_RESULT"}

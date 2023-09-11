@@ -94,19 +94,7 @@ pipeline {
             script {
                 if (isEmailNeeded(currentBuild.getBuildCauses())) {
                     emailext (
-                    body:
-'''
-Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
-Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
-
-Report URL: ${BUILD_URL}Test_20Report/
-Build URL: ${BUILD_URL}
-Project Name: ${PROJECT_NAME}
-GIT_REVISION: ${GIT_REVISION}
-
-Test run:
-${ENV,var="MAVEN_TESTS_RESULT"}
-''',
+                    body: '${FILE, path="email_content_template"}',
                     subject: '${PROJECT_NAME} - Started by BuildUpstreamCause - ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}',
                     to: '${ENV, var="EMAIL_ADDRESSES"}'
                     )
@@ -118,22 +106,7 @@ ${ENV,var="MAVEN_TESTS_RESULT"}
             script {
                 if (isEmailNeeded(currentBuild.getBuildCauses())) {
                     emailext (
-                    body:
-'''
-Maven Test Status: ${ENV,var="MAVEN_BUILD_RESULT"}
-Test summary: ${ENV,var="MAVEN_TESTS_RESULT_SUMMARY"}
-
-Report URL: ${BUILD_URL}Test_20Report/
-Build URL: ${BUILD_URL}
-Project Name: ${PROJECT_NAME}
-GIT_REVISION: ${GIT_REVISION}
-
-Test run:
-${ENV,var="MAVEN_TESTS_RESULT"}
-
-Commit info:
-${ENV, var="EMAIL_COMMIT_INFO"}
-''',
+                    body: '${FILE, path="email_content_template"}',
                     subject: '${PROJECT_NAME} - Started by BuildUpstreamCause - ${ENV,var="MAVEN_BUILD_RESULT"}',
                     to: '${ENV, var="EMAIL_ADDRESSES"}'
                     )
@@ -155,7 +128,7 @@ ${ENV, var="EMAIL_COMMIT_INFO"}
                         ]
                 )
             }
-            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src'
+            sh 'rm -rf $WORKSPACE/Jenkinsfile $WORKSPACE/README.md $WORKSPACE/pom.xml $WORKSPACE/src email_content_template'
         }
     }
 }
