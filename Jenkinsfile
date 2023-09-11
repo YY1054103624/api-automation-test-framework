@@ -30,7 +30,7 @@ pipeline {
         )
     }
     parameters {
-        string defaultValue: 'no commit info', name: 'COMMIT_INFO'
+        string defaultValue: 'default', name: 'COMMIT_INFO'
     }
     options {
          timeout(time: 2, unit: 'HOURS')
@@ -68,16 +68,19 @@ pipeline {
         stage('Set global variables from upstream build') {
             steps {
                 script {
-                    def jsonSlurper = new JsonSlurper()
-                    def commits = jsonSlurper.parseText(params.COMMIT_INFO)
-                    def formattedCommitsInfo = new StringBuilder();
-                    def emailAddresses = new StringBuilder();
-                    for (i=0; i<commits.size(); i++) {
-                        commitsInfoFormatter(commits, formattedCommitsInfo)
-                        emailAdressesFormatter(commits, emailAddresses, i)
+                    if (params.COMMIT_INFO != 'default') {
+                        def jsonSlurper = new JsonSlurper()
+                        def commits = jsonSlurper.parseText(params.COMMIT_INFO)
+                        def formattedCommitsInfo = new StringBuilder();
+                        def emailAddresses = new StringBuilder();
+                        for (i=0; i<commits.size(); i++) {
+                            commitsInfoFormatter(commits, formattedCommitsInfo)
+                            emailAdressesFormatter(commits, emailAddresses, i)
+                        }
+                        env.EMAIL_COMMIT_INFO=formattedCommitsInfo
+                        env.EMAIL_ADDRESSES=emailAddresses
                     }
-                    env.EMAIL_COMMIT_INFO=formattedCommitsInfo
-                    env.EMAIL_ADDRESSES=emailAddresses
+                    
                 }
             }
         }
