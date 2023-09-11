@@ -129,7 +129,8 @@ ${ENV,var="MAVEN_TESTS_RESULT"}
             }
         }
         failure {
-            if (isEmailNeeded(currentBuild.getBuildCauses())) {
+            script {
+                if (isEmailNeeded(currentBuild.getBuildCauses())) {
                     emailext (
                     body:
 '''
@@ -151,6 +152,7 @@ ${ENV, var="EMAIL_COMMIT_INFO"}
                     to: '${ENV, var="EMAIL_ADDRESSES"}'
                     )
                 }
+            }
         }
         always {
             script {
