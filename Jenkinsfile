@@ -3,7 +3,6 @@ import groovy.json.JsonSlurper
 env.EMAIL_COMMIT_INFO='default'
 env.EMAIL_ADDRESSES='default'
 env.TRIGGER_CAUSE=getTriggerCause(currentBuild.getBuildCauses())
-
 env.MAVEN_TESTS_RESULT_SUMMARY='default'
 env.MAVEN_BUILD_RESULT='default'
 env.MAVEN_TESTS_RESULT='default';
