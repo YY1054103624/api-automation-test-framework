@@ -29,7 +29,6 @@ public final class EnvironmentVariables {
      * Clear the environment variable object.
      */
     public static void unLoadEnvironmentVariables() {
-        PropertiesUtils.saveRuntimeVariables();
         EnvironmentVariablesManager.remove();
     }
 }

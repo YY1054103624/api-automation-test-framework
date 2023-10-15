@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
                 "timeline:target/generated-timeline-report",
                 "html:target/generated-html-report/index.html",
                  "json:target/generated-json-report/cucumber.json"},
-        tags = "@Regression"
+        tags = "@AddPet"
         )
 public class TestRunner {
 }

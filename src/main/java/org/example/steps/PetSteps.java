@@ -73,4 +73,23 @@ public class PetSteps {
         }
     }
 
+    @When("User sends a request to add a new pet {string} {string}")
+    public void userSendsARequestToAddANewPetPetNameCategoryName(String petName, String categoryName, io.cucumber.datatable.DataTable dataTable) {
+        EnvironmentVariablesUtils.putValue("petName", petName);
+        EnvironmentVariablesUtils.putValue("categoryName", categoryName);
+        Map<String, String> requestSettings = dataTable.asMaps().get(0);
+        response = sendRequest(requestSettings);
+    }
+
+    @When("User sends a request to get the pet")
+    public void user_sends_a_request_to_get_the_pet(io.cucumber.datatable.DataTable dataTable) {
+        Map<String, String> requestSettings = dataTable.asMaps().get(0);
+        response = sendRequest(requestSettings);
+    }
+    @When("User sends a request to delete the pet")
+    public void user_sends_a_request_to_delete_the_pet(io.cucumber.datatable.DataTable dataTable) {
+        Map<String, String> requestSettings = dataTable.asMaps().get(0);
+        response = sendRequest(requestSettings);
+    }
+
 }

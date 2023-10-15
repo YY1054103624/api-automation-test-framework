@@ -2,9 +2,9 @@
   "id": {{$number.positive}},
   "category": {
     "id": 0,
-    "name": "{{$cat.breed}}"
+    "name": "{{categoryName}}"
   },
-  "name": "{{$cat.name}}",
+  "name": "{{petName}}",
   "photoUrls": [
     "string"
   ],
